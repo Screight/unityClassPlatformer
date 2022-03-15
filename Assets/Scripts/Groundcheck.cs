@@ -39,7 +39,7 @@ public class Groundcheck : MonoBehaviour
         {
             playerScript.IsGrounded = false;
 
-            playerRigidBody.gravityScale = playerScript.Gravity2 / Physics2D.gravity.y;
+            playerRigidBody.gravityScale = playerScript.Gravity1 / Physics2D.gravity.y;
         } 
     }
 }

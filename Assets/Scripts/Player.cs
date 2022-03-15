@@ -93,6 +93,9 @@ public class Player : MonoBehaviour
             case PLAYER_STATE.JUMP:
                 Move(PLAYER_STATE.JUMP);
                 break;
+            case PLAYER_STATE.FALL:
+                Move(PLAYER_STATE.FALL);
+                break;
         }
     }
 
