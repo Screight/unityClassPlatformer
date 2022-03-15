@@ -41,7 +41,8 @@ public class Player : MonoBehaviour
     float m_direction;
     bool m_canIMove = true;
 
-    
+    [SerializeField] GameObject m_bulletPrefab;
+    [SerializeField] Transform m_bulletSpawnPosition;
 
     private void Awake()
     {
@@ -85,10 +86,12 @@ public class Player : MonoBehaviour
             case PLAYER_STATE.IDLE:
                 Move(PLAYER_STATE.IDLE);
                 Jump();
+                Attack();
                 break;
             case PLAYER_STATE.RUN:
                 Move(PLAYER_STATE.IDLE);
                 Jump();
+                Attack();
                 break;
             case PLAYER_STATE.JUMP:
                 Move(PLAYER_STATE.JUMP);
@@ -151,6 +154,26 @@ public class Player : MonoBehaviour
             SetPlayerAnimation(PLAYER_ANIMATION.JUMP);
             m_isGrounded = false;
         }
+    }
+
+    void Attack()
+    {
+        if (m_isGrounded && InputManager.Instance.AttackButtonPressed) {
+            SetPlayerAnimation(PLAYER_ANIMATION.ATTACK);
+            m_state = PLAYER_STATE.ATTACK;
+            m_rb2D.velocity = Vector2.zero;
+        }
+    }
+
+    void InstantiateBullet()
+    {
+        Bullet bulletScript = Instantiate(m_bulletPrefab, m_bulletSpawnPosition.position, Quaternion.identity).GetComponent<Bullet>();
+        bulletScript.SetDirection((int)transform.localScale.x);
+    }
+
+    void EndAttack()
+    {
+        m_state = PLAYER_STATE.IDLE;
     }
 
     void FlipX()
